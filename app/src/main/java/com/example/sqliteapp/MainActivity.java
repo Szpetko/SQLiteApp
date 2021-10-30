@@ -35,16 +35,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    UserModel userModel = new UserModel(-1,et_name.getText().toString(),Integer.parseInt(et_age.getText().toString()),sw_active.isChecked());
+                UserModel userModel;
 
+                try {
+                    userModel = new UserModel(-1,et_name.getText().toString(),Integer.parseInt(et_age.getText().toString()),sw_active.isChecked());
                     Toast.makeText(MainActivity.this, userModel.toString(), Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e){
                     Toast.makeText(MainActivity.this, "Error creating user", Toast.LENGTH_SHORT).show();
+                    userModel = new UserModel(-1, "error", 0,false);
                 }
 
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
 
+                boolean success = dataBaseHelper.addOne(userModel);
+                Toast.makeText(MainActivity.this, "Success= " + success, Toast.LENGTH_SHORT).show();
 
             }
         });
